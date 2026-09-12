@@ -238,6 +238,18 @@ function App() {
   const portfolioSpread = window.innerWidth <= 800 ? 0 : 90
 
   useEffect(() => {
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    if (navigation?.type !== 'reload') return
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+    if (window.location.hash) window.history.replaceState({}, '', `${window.location.pathname}${window.location.search}`)
+    const goToTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    goToTop()
+    const frame = window.requestAnimationFrame(goToTop)
+    const timer = window.setTimeout(goToTop, 80)
+    return () => { window.cancelAnimationFrame(frame); window.clearTimeout(timer) }
+  }, [])
+
+  useEffect(() => {
     const timer = window.setInterval(() => setActivePlan(current => (current + 1) % plans.length), 7000)
     return () => window.clearInterval(timer)
   }, [])
