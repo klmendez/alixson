@@ -7,3 +7,10 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# Originales conservados localmente; el sitio utiliza las versiones WebP
+/*.jpg
+/*.JPG
+/*.jpeg
+/*.png
+/src/assets/photographers/*.jpg

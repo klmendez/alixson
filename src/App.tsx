@@ -2,32 +2,32 @@ import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
 import { ArrowDown, ArrowRight, Facebook, Instagram, Mail, MapPin, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-import hero from '../IMG_0702.JPG'
-import about from '../alixson-retrato-limpio.png'
-import malvie from '../4fb01938-7425-4704-8c18-64fec0f7fc8b.jpeg'
-import flower from '../fbd8f09c-3701-44e5-85d3-25ab68c825a0.jpeg'
-import runway1 from '../_DSC6407.jpeg'
-import runway2 from '../_DSC7125.jpeg'
-import runway3 from '../_DSC7641.jpeg'
-import stairs1 from '../_DSC8056A.png'
-import stairs2 from '../_DSC8057A.png'
-import editorial from '../_DSC9588-Mejorado-NR.jpeg'
-import portraitRed from '../IMG_0703.JPG'
-import whiteLook from '../IMG_1641.JPG'
-import sagitario1 from '../IMG_6287.jpeg'
-import sagitario2 from '../IMG_6288.jpeg'
-import outdoor1 from '../IMG_6293.jpeg'
-import outdoor2 from '../IMG_6312.jpeg'
-import beauty from '../IMG_9541.JPG'
-import studio from '../IMG_9544.JPG'
-import malvieFull from '../d5f89e67-5aa9-4b44-b793-1899da25080b.jpeg'
-import conceptual from '../28.jpeg'
-import darkPortrait from '../14.jpeg'
-import monoAzulProfile from './assets/photographers/mono-azul.jpg'
-import juanPabloProfile from './assets/photographers/juan-pablo-idrobo.jpg'
-import sebastianProfile from './assets/photographers/sebastian-cadavid.jpg'
-import haroldProfile from './assets/photographers/harold-vanegas.jpg'
-import maraProfile from './assets/photographers/mara-fritz.jpg'
+import hero from '../IMG_0702.webp'
+import about from '../alixson-retrato-limpio.webp'
+import malvie from '../4fb01938-7425-4704-8c18-64fec0f7fc8b.webp'
+import flower from '../fbd8f09c-3701-44e5-85d3-25ab68c825a0.webp'
+import runway1 from '../_DSC6407.webp'
+import runway2 from '../_DSC7125.webp'
+import runway3 from '../_DSC7641.webp'
+import stairs1 from '../_DSC8056A.webp'
+import stairs2 from '../_DSC8057A.webp'
+import editorial from '../_DSC9588-Mejorado-NR.webp'
+import portraitRed from '../IMG_0703.webp'
+import whiteLook from '../IMG_1641.webp'
+import sagitario1 from '../IMG_6287.webp'
+import sagitario2 from '../IMG_6288.webp'
+import outdoor1 from '../IMG_6293.webp'
+import outdoor2 from '../IMG_6312.webp'
+import beauty from '../IMG_9541.webp'
+import studio from '../IMG_9544.webp'
+import malvieFull from '../d5f89e67-5aa9-4b44-b793-1899da25080b.webp'
+import conceptual from '../28.webp'
+import darkPortrait from '../14.webp'
+import monoAzulProfile from './assets/photographers/mono-azul.webp'
+import juanPabloProfile from './assets/photographers/juan-pablo-idrobo.webp'
+import sebastianProfile from './assets/photographers/sebastian-cadavid.webp'
+import haroldProfile from './assets/photographers/harold-vanegas.webp'
+import maraProfile from './assets/photographers/mara-fritz.webp'
 
 type Category = 'Todos' | 'Editorial' | 'Fashion' | 'Beauty' | 'Lifestyle' | 'Runway' | 'UGC'
 type GalleryItem = { src: string; category: Exclude<Category, 'Todos'>; title: string; note: string; slug: string; description: string; position?: string; related?: string[] }
@@ -197,6 +197,7 @@ function PhotographersCarousel() {
 
 function ProjectDetail({ item, onBack }: { item: GalleryItem; onBack: () => void }) {
   const series = item.related?.length ? item.related : [item.src]
+  useEffect(()=>{ window.scrollTo({top:0,left:0,behavior:'instant'}) },[])
   return <motion.main className="detail-page" initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.7}}>
     <SiteHeader internal/>
     <section className="project-page-hero"><motion.img initial={{scale:1.08}} animate={{scale:1}} transition={{duration:1.4,ease:[.22,1,.36,1]}} src={item.src} alt={item.title}/><div className="project-page-shade"/><motion.div className="project-page-title" initial={{opacity:0,y:35}} animate={{opacity:1,y:0}} transition={{delay:.35,duration:.9}}><p>{item.category} — Proyecto</p><h1>{item.title}</h1><span>{item.note}</span></motion.div><button className="project-back" onClick={onBack}>← Volver al portafolio</button></section>
@@ -209,6 +210,7 @@ function ProjectDetail({ item, onBack }: { item: GalleryItem; onBack: () => void
 function ContentPage({ data, path }: { data: PageData; path:string }) {
   const [opened, setOpened] = useState<string | null>(null)
   const [flipped, setFlipped] = useState<string | null>(null)
+  useEffect(()=>{ window.scrollTo({top:0,left:0,behavior:'instant'}) },[path])
   const openedInfo = gallery.find(g=>g.src===opened)
   const heroImage = path==='sobre-mi'?about:path==='portafolio'?runway1:path==='servicios'?runway3:path==='ugc'?outdoor2:path==='contacto'?outdoor1:data.hero
   const pageImages = data.images.filter(src=>src!==heroImage)
@@ -252,6 +254,7 @@ function App() {
   const pagePath = window.location.pathname.replace(/^\/+|\/+$/g,'')
 
   if (detailItem) return <ProjectDetail item={detailItem} onBack={closeProject}/>
+  if (pagePath && pages[pagePath]) return <ContentPage data={pages[pagePath]} path={pagePath}/>
 
   return <>
     <motion.div className="progress" style={{ scaleX }} />
